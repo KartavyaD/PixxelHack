@@ -1,48 +1,135 @@
-// Role Management
-        const userRole = 'user'; // Can be 'admin', 'user', 'expert'
-        const dashboardGrid = document.getElementById('dashboardGrid');
-        if (userRole === 'admin') {
-            dashboardGrid.innerHTML += `
-                <div class="dashboard-card glass">
-                    <div class="card-header">
-                        <div class="card-title">System Health</div>
-                        <div class="card-icon"><i class="fas fa-heartbeat"></i></div>
-                    </div>
-                    <div class="card-value">98%</div>
-                    <div class="card-trend"><i class="fas fa-arrow-up"></i> Stable</div>
-                </div>`;
-        } else if (userRole === 'expert') {
-            dashboardGrid.innerHTML += `
-                <div class="dashboard-card glass">
-                    <div class="card-header">
-                        <div class="card-title">Tasks</div>
-                        <div class="card-icon"><i class="fas fa-tasks"></i></div>
-                    </div>
-                    <div class="card-value">5</div>
-                    <div class="card-trend"><i class="fas fa-arrow-up"></i> 2 new</div>
-                </div>`;
+ let isAuthenticated = false;
+        let currentUser = { name: 'Fintech User', email: 'user@fintechhub.com', role: 'investor', avatar: 'FT' };
+
+        // Page Navigation
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const authLinks = document.querySelectorAll('.auth-link');
+
+        function showPage(pageId) {
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            navLinks.forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+            if (activeLink) activeLink.classList.add('active');
         }
+
+        function updateAuthState() {
+            if (isAuthenticated) {
+                document.getElementById('mainHeader').style.display = 'block';
+                document.getElementById('mainSidebar').style.display = 'block';
+                document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('signup').style.display = 'none';
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userRole').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+                document.getElementById('userAvatar').textContent = currentUser.avatar;
+                document.getElementById('profileName').textContent = currentUser.name;
+                document.getElementById('profileRole').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+                document.getElementById('profileEmail').textContent = currentUser.email;
+                document.getElementById('profileAvatar').textContent = currentUser.avatar;
+                showPage('dashboard');
+            } else {
+                document.getElementById('mainHeader').style.display = 'none';
+                document.getElementById('mainSidebar').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'none';
+                showPage('login');
+            }
+        }
+
+        // Login
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            if (email && password) {
+                isAuthenticated = true;
+                currentUser.email = email;
+                updateAuthState();
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        // Signup
+        document.getElementById('signupBtn').addEventListener('click', () => {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const role = document.getElementById('signupRole').value;
+            if (name && email && password && role) {
+                isAuthenticated = true;
+                currentUser = {
+                    name,
+                    email,
+                    role,
+                    avatar: name.split(' ').map(n => n[0]).join('').toUpperCase()
+                };
+                updateAuthState();
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            isAuthenticated = false;
+            updateAuthState();
+        });
+
+        // Navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                showPage(pageId);
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.add('collapsed');
+                    sidebar.classList.remove('mobile-open');
+                    sidebarToggle.innerHTML = '<i class="fas fa-arrow-right"></i>';
+                }
+            });
+        });
+
+        authLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
 
         // Sidebar Toggle
         const sidebar = document.querySelector('.sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
         sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('collapsed');
+            sidebar.classList.toggle('mobile-open');
+            sidebarToggle.innerHTML = sidebar.classList.contains('collapsed') ? '<i class="fas fa-arrow-right"></i>' : '<i class="fas fa-arrow-left"></i>';
         });
 
-        // Page Navigation
-        const navLinks = document.querySelectorAll('.nav-link');
-        const pages = document.querySelectorAll('.page');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                const pageId = link.getAttribute('data-page');
-                pages.forEach(page => page.classList.remove('active'));
-                document.getElementById(pageId).classList.add('active');
-            });
-        });
+        // Role-Based Dashboard
+        const dashboardGrid = document.getElementById('dashboardGrid');
+        if (currentUser.role === 'admin') {
+            dashboardGrid.innerHTML += `
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">Platform Transactions</div>
+                        <div class="card-icon"><i class="fas fa-exchange-alt"></i></div>
+                    </div>
+                    <div class="card-value">1,234</div>
+                    <div class="card-trend"><i class="fas fa-arrow-up"></i> 10% today</div>
+                </div>`;
+        } else if (currentUser.role === 'analyst') {
+            dashboardGrid.innerHTML += `
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">Market Trends</div>
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    </div>
+                    <div class="card-value">5</div>
+                    <div class="card-trend"><i class="fas fa-arrow-up"></i> 2 new</div>
+                </div>`;
+        }
 
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
@@ -82,7 +169,7 @@
         ttsToggle.addEventListener('click', () => {
             ttsToggle.classList.toggle('active');
             if (ttsToggle.classList.contains('active')) {
-                const text = document.body.innerText;
+                const text = document.querySelector('.page.active').innerText;
                 const utterance = new SpeechSynthesisUtterance(text);
                 window.speechSynthesis.speak(utterance);
             } else {
@@ -95,7 +182,6 @@
             const lang = e.target.value;
             document.documentElement.lang = lang;
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            // Add translation logic here
         });
 
         // Smart Search
@@ -105,7 +191,7 @@
             const query = e.target.value;
             if (query.length > 2) {
                 searchResults.style.display = 'block';
-                searchResults.innerHTML = `<p>Searching for: ${query}</p><p>Suggestions: Idea 1, Idea 2</p>`;
+                searchResults.innerHTML = `<p>Searching for: ${query}</p><p>Suggestions: Stock Analysis, Budget Tips</p>`;
             } else {
                 searchResults.style.display = 'none';
             }
@@ -138,7 +224,7 @@
                     </div>`;
                 chatMessages.innerHTML += `
                     <div class="message bot">
-                        <div class="message-bubble">I’m here to help! You said: ${message}</div>
+                        <div class="message-bubble">Analyzing: ${message}. Try asking about stock trends or budgeting!</div>
                     </div>`;
                 chatInput.value = '';
                 chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -156,24 +242,24 @@
         });
 
         // Chart
-        const ctx = document.getElementById('activityChart').getContext('2d');
+        const ctx = document.getElementById('portfolioChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
                 datasets: [{
-                    label: 'Activity',
-                    data: [10, 20, 15, 25, 30],
-                    borderColor: 'rgba(99, 102, 241, 1)',
+                    label: 'Portfolio Value',
+                    data: [10000, 10500, 11000, 10800, 12345],
+                    borderColor: 'rgba(30, 58, 138, 1)',
                     tension: 0.4,
                     fill: true,
-                    backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                    backgroundColor: 'rgba(30, 58, 138, 0.2)',
                 }]
             },
             options: {
                 responsive: true,
                 scales: {
-                    y: { beginAtZero: true }
+                    y: { beginAtZero: false }
                 }
             }
         });
@@ -181,5 +267,13 @@
         // Report Generation
         const generateReport = document.getElementById('generateReport');
         generateReport.addEventListener('click', () => {
-            alert('Report generated! (PDF/CSV/XLSX placeholder)');
+            alert('Financial report generated! (PDF/CSV/XLSX placeholder)');
         });
+
+        // Edit Profile (Placeholder)
+        document.getElementById('editProfile').addEventListener('click', () => {
+            alert('Edit profile functionality coming soon!');
+        });
+
+        // Initialize
+        updateAuthState();

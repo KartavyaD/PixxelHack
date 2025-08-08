@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InnovateHub - Creative Problem Solving Platform</title>
+    <title>FinTechHub - Financial Innovation Platform</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="General.css" rel="stylesheet">
+</head>
 </head>
 <body>
     <div class="bg-shapes">
@@ -15,20 +16,62 @@
         <div class="shape"></div>
     </div>
 
-    <header class="header glass">
+    <div class="page active" id="login">
+        <div class="auth-container glass">
+            <h2 class="auth-title">Welcome to FinTechHub</h2>
+            <div class="form-group">
+                <input type="email" class="auth-input" id="loginEmail" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="auth-input" id="loginPassword" placeholder="Password" required>
+            </div>
+            <button class="auth-btn" id="loginBtn">Log In</button>
+            <p style="margin-top: 1rem;">
+                Don't have an account? <a href="#" class="auth-link" data-page="signup">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="page" id="signup">
+        <div class="auth-container glass">
+            <h2 class="auth-title">Join FinTechHub</h2>
+            <div class="form-group">
+                <input type="text" class="auth-input" id="signupName" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" class="auth-input" id="signupEmail" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="auth-input" id="signupPassword" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <select class="auth-input" id="signupRole">
+                    <option value="investor">Investor</option>
+                    <option value="analyst">Analyst</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <button class="auth-btn" id="signupBtn">Sign Up</button>
+            <p style="margin-top: 1rem;">
+                Already have an account? <a href="#" class="auth-link" data-page="login">Log In</a>
+            </p>
+        </div>
+    </div>
+
+    <header class="header glass" id="mainHeader" style="display: none;">
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon">
-                    <i class="fas fa-lightbulb"></i>
+                    <i class="fas fa-wallet"></i>
                 </div>
-                <span>InnovateHub</span>
+                <span>FinTechHub</span>
             </div>
 
             <div class="search-container">
                 <div class="search-icon">
                     <i class="fas fa-search"></i>
                 </div>
-                <input type="text" class="search-input glass" placeholder="Smart search across platform..." id="smartSearch">
+                <input type="text" class="search-input glass" placeholder="Search financial insights..." id="smartSearch">
                 <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
                     <i class="fas fa-microphone"></i>
                 </button>
@@ -40,27 +83,24 @@
                     <i class="fas fa-bell"></i>
                     <div class="notification-dot"></div>
                 </button>
-
                 <button class="action-btn" id="themeToggle" title="Toggle Theme">
                     <i class="fas fa-moon"></i>
                 </button>
-
                 <button class="action-btn" id="accessibilityToggle" title="Accessibility">
                     <i class="fas fa-universal-access"></i>
                 </button>
-
-                <div class="user-profile" id="userProfile">
-                    <div class="avatar">IN</div>
+                <div class="user-profile" id="userProfile" data-page="profile">
+                    <div class="avatar" id="userAvatar">FT</div>
                     <div>
-                        <div style="font-weight: 600;">Innovator</div>
-                        <div style="font-size: 0.8rem; opacity: 0.8;">User</div>
+                        <div style="font-weight: 600;" id="userName">Fintech User</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;" id="userRole">Investor</div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <nav class="sidebar glass">
+    <nav class="sidebar glass" id="mainSidebar" style="display: none;">
         <button class="sidebar-toggle" id="sidebarToggle">
             <i class="fas fa-arrow-left"></i>
         </button>
@@ -68,37 +108,37 @@
             <li class="nav-item">
                 <a href="#" class="nav-link active" data-page="dashboard">
                     <span class="nav-icon"><i class="fas fa-tachometer-alt"></i></span>
-                    <span class="nav-text">Dashboard</span>
+                    <span class="nav-text">Portfolio Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link" data-page="chatbot">
                     <span class="nav-icon"><i class="fas fa-robot"></i></span>
-                    <span class="nav-text">Chatbot</span>
+                    <span class="nav-text">Finance Assistant</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link" data-page="forum">
                     <span class="nav-icon"><i class="fas fa-users"></i></span>
-                    <span class="nav-text">Forum</span>
+                    <span class="nav-text">Investor Forum</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link" data-page="recommendations">
                     <span class="nav-icon"><i class="fas fa-lightbulb"></i></span>
-                    <span class="nav-text">Recommendations</span>
+                    <span class="nav-text">Investment Ideas</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link" data-page="cms">
                     <span class="nav-icon"><i class="fas fa-cogs"></i></span>
-                    <span class="nav-text">Admin CMS</span>
+                    <span class="nav-text">Admin Panel</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link" data-page="reports">
                     <span class="nav-icon"><i class="fas fa-file-alt"></i></span>
-                    <span class="nav-text">Reports</span>
+                    <span class="nav-text">Financial Reports</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -110,119 +150,124 @@
             <li class="nav-item">
                 <a href="#" class="nav-link" data-page="gamification">
                     <span class="nav-icon"><i class="fas fa-trophy"></i></span>
-                    <span class="nav-text">Gamification</span>
+                    <span class="nav-text">Rewards</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="profile">
+                    <span class="nav-icon"><i class="fas fa-user"></i></span>
+                    <span class="nav-text">Profile</span>
                 </a>
             </li>
         </ul>
     </nav>
 
-    <main class="main-content">
-        <section class="page active" id="dashboard">
+    <main class="main-content" id="mainContent" style="display: none;">
+        <section class="page" id="dashboard">
             <div class="page-header">
-                <h1 class="page-title">Your Dashboard</h1>
-                <p class="page-description">Personalized insights and actions tailored to your role.</p>
+                <h1 class="page-title">Portfolio Dashboard</h1>
+                <p class="page-description">Track your investments and financial insights in real time.</p>
             </div>
             <div class="dashboard-grid" id="dashboardGrid">
-                <div class="dashboard-card glass">
+                <div class="dashboard-card">
                     <div class="card-header">
-                        <div class="card-title">Activity</div>
-                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="card-title">Portfolio Value</div>
+                        <div class="card-icon"><i class="fas fa-wallet"></i></div>
                     </div>
-                    <div class="card-value">128</div>
-                    <div class="card-trend"><i class="fas fa-arrow-up"></i> 12% this week</div>
+                    <div class="card-value">$12,345</div>
+                    <div class="card-trend"><i class="fas fa-arrow-up"></i> 5.2% this month</div>
                 </div>
-                <div class="dashboard-card glass">
+                <div class="dashboard-card">
                     <div class="card-header">
-                        <div class="card-title">Alerts</div>
+                        <div class="card-title">Market Alerts</div>
                         <div class="card-icon"><i class="fas fa-bell"></i></div>
                     </div>
-                    <div class="card-value">3</div>
+                    <div class="card-value">2</div>
                     <div class="card-trend"><i class="fas fa-arrow-down"></i> 1 resolved</div>
                 </div>
-                <div class="dashboard-card glass">
+                <div class="dashboard-card">
                     <div class="card-header">
-                        <div class="card-title">Summary</div>
+                        <div class="card-title">AI Insights</div>
                         <div class="card-icon"><i class="fas fa-brain"></i></div>
                     </div>
-                    <div class="card-value">AI Insight</div>
-                    <div class="card-trend">Your activity is trending up!</div>
+                    <div class="card-value">Bullish</div>
+                    <div class="card-trend">Market trending up!</div>
                 </div>
             </div>
-            <canvas id="activityChart" height="200"></canvas>
+            <canvas id="portfolioChart" height="150"></canvas>
         </section>
 
         <section class="page" id="chatbot">
             <div class="page-header">
-                <h1 class="page-title">AI Chatbot</h1>
-                <p class="page-description">Ask anything, anytime with our context-aware assistant.</p>
+                <h1 class="page-title">Finance Assistant</h1>
+                <p class="page-description">Get personalized financial advice and market analysis.</p>
             </div>
-            <div class="chat-container glass">
+            <div class="chat-container">
                 <div class="chat-header">
-                    <i class="fas fa-robot"></i> InnovateBot
+                    <i class="fas fa-robot"></i> FinBot
                 </div>
                 <div class="chat-messages" id="chatMessages">
                     <div class="message bot">
-                        <div class="message-bubble">Hello! How can I assist you today?</div>
+                        <div class="message-bubble">Hello! Ask me about investments, markets, or budgeting.</div>
                     </div>
                 </div>
                 <div class="chat-input-area">
-                    <input type="text" class="chat-input" id="chatInput" placeholder="Type or speak your message...">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ask about stocks, budgeting, or more...">
                     <button class="send-button" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
                     <button class="send-button" id="voiceChat"><i class="fas fa-microphone"></i></button>
                 </div>
-            </div>
-        </section>
+            </section>
 
         <section class="page" id="forum">
             <div class="page-header">
-                <h1 class="page-title">Community Forum</h1>
-                <p class="page-description">Share ideas and get answers from the community.</p>
+                <h1 class="page-title">Investor Forum</h1>
+                <p class="page-description">Discuss markets, strategies, and fintech innovations.</p>
             </div>
-            <div class="forum-thread glass">
+            <div class="forum-thread">
                 <div class="thread-header">
-                    <div>How can we innovate sustainably?</div>
+                    <div>Best Cryptocurrency to Invest in 2025?</div>
+                    <div class="thread-actions">
+                        <span><i class="fas fa-arrow-up"></i> 20</span>
+                        <span><i class="fas fa-comment"></i> 12</span>
+                    </div>
+                </div>
+                <p>Posted by Investor123 • 3 hours ago</p>
+            </div>
+            <div class="forum-thread">
+                <div class="thread-header">
+                    <div>AI in Fintech: Opportunities?</div>
                     <div class="thread-actions">
                         <span><i class="fas fa-arrow-up"></i> 15</span>
                         <span><i class="fas fa-comment"></i> 8</span>
                     </div>
                 </div>
-                <p>Posted by User123 • 2 hours ago</p>
-            </div>
-            <div class="forum-thread glass">
-                <div class="thread-header">
-                    <div>Best tools for collaboration?</div>
-                    <div class="thread-actions">
-                        <span><i class="fas fa-arrow-up"></i> 10</span>
-                        <span><i class="fas fa-comment"></i> 5</span>
-                    </div>
-                </div>
-                <p>Posted by Expert456 • 1 day ago</p>
+                <p>Posted by Analyst456 • 1 day ago</p>
             </div>
         </section>
 
         <section class="page" id="recommendations">
             <div class="page-header">
-                <h1 class="page-title">Smart Recommendations</h1>
-                <p class="page-description">Personalized suggestions just for you.</p>
+                <h1 class="page-title">Investment Ideas</h1>
+                <p class="page-description">Personalized investment opportunities for you.</p>
             </div>
             <div class="recommendation-grid">
-                <div class="recommendation-card glass">
-                    <h3>Learn AI Basics</h3>
-                    <p>A beginner's guide to artificial intelligence.</p>
+                <div class="recommendation-card">
+                    <h3>Tech Stocks</h3>
+                    <p>Explore high-growth tech companies for 2025.</p>
                 </div>
-                <div class="recommendation-card glass">
-                    <h3>Eco-Friendly Tips</h3>
-                    <p>Reduce your carbon footprint today.</p>
+                <div class="recommendation-card">
+                    <h3>Green Bonds</h3>
+                    <p>Invest in sustainable financial instruments.</p>
                 </div>
             </div>
         </section>
 
         <section class="page" id="cms">
             <div class="page-header">
-                <h1 class="page-title">Admin CMS</h1>
-                <p class="page-description">Manage content and users with ease.</p>
+                <h1 class="page-title">Admin Panel</h1>
+                <p class="page-description">Manage users, transactions, and content.</p>
             </div>
-            <table class="data-table glass">
+            <table class="data-table">
                 <thead>
                     <tr>
                         <th>User</th>
@@ -232,8 +277,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>User123</td>
-                        <td>User</td>
+                        <td>Investor123</td>
+                        <td>Investor</td>
                         <td><button class="btn btn-secondary">Edit</button></td>
                     </tr>
                     <tr>
@@ -247,10 +292,10 @@
 
         <section class="page" id="reports">
             <div class="page-header">
-                <h1 class="page-title">Reports</h1>
-                <p class="page-description">Generate and export custom reports.</p>
+                <h1 class="page-title">Financial Reports</h1>
+                <p class="page-description">Generate and export investment reports.</p>
             </div>
-            <div class="form-container glass">
+            <div class="form-container">
                 <div class="form-group">
                     <label class="form-label">Report Type</label>
                     <select class="form-input">
@@ -263,11 +308,11 @@
             </div>
             <div class="progress-container">
                 <div class="progress-label">
-                    <span>Activity Progress</span>
-                    <span>75%</span>
+                    <span>Portfolio Growth</span>
+                    <span>65%</span>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: 75%;"></div>
+                    <div class="progress-fill" style="width: 65%;"></div>
                 </div>
             </div>
         </section>
@@ -275,12 +320,12 @@
         <section class="page" id="feedback">
             <div class="page-header">
                 <h1 class="page-title">Feedback</h1>
-                <p class="page-description">Let us know your thoughts!</p>
+                <p class="page-description">Share your thoughts on our platform!</p>
             </div>
-            <div class="form-container glass">
+            <div class="form-container">
                 <div class="form-group">
                     <label class="form-label">Your Feedback</label>
-                    <textarea class="form-input" rows="5" placeholder="Type or speak your feedback..."></textarea>
+                    <textarea class="form-input" rows="5" placeholder="Tell us about your fintech experience..."></textarea>
                 </div>
                 <button class="btn btn-primary">Submit Feedback</button>
             </div>
@@ -288,14 +333,14 @@
 
         <section class="page" id="gamification">
             <div class="page-header">
-                <h1 class="page-title">Gamification</h1>
-                <p class="page-description">Earn badges and climb the leaderboard!</p>
+                <h1 class="page-title">Rewards</h1>
+                <p class="page-description">Earn badges and climb the investor leaderboard!</p>
             </div>
             <div class="gamification-container">
-                <div class="badge"><i class="fas fa-star"></i> Innovator</div>
-                <div class="badge"><i class="fas fa-leaf"></i> Eco-Warrior</div>
+                <div class="badge"><i class="fas fa-star"></i> Top Investor</div>
+                <div class="badge"><i class="fas fa-coins"></i> Savvy Trader</div>
             </div>
-            <table class="data-table leaderboard-table glass">
+            <table class="data-table">
                 <thead>
                     <tr>
                         <th>Rank</th>
@@ -306,16 +351,49 @@
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>User123</td>
-                        <td>1500</td>
+                        <td>Investor123</td>
+                        <td>1800</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>Expert456</td>
-                        <td>1200</td>
+                        <td>Analyst456</td>
+                        <td>1500</td>
                     </tr>
                 </tbody>
             </table>
+        </section>
+
+        <section class="page" id="profile">
+            <div class="page-header">
+                <h1 class="page-title">Your Profile</h1>
+                <p class="page-description">Manage your account and view your activity.</p>
+            </div>
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profileAvatar">FT</div>
+                    <div class="profile-info">
+                        <h2 id="profileName">Fintech User</h2>
+                        <p id="profileRole">Investor</p>
+                    </div>
+                </div>
+                <div class="profile-section">
+                    <h3>Account Details</h3>
+                    <p>Email: <span id="profileEmail">user@fintechhub.com</span></p>
+                    <p>Joined: August 2025</p>
+                    <button class="btn btn-secondary" id="editProfile">Edit Profile</button>
+                </div>
+                <div class="profile-section">
+                    <h3>Investment Activity</h3>
+                    <p>Total Investments: $12,345</p>
+                    <p>Recent Transactions: 5</p>
+                </div>
+                <div class="profile-section">
+                    <h3>Preferences</h3>
+                    <p>Notifications: Enabled</p>
+                    <p>Language: English</p>
+                </div>
+                <button class="btn btn-danger" id="logoutBtn">Log Out</button>
+            </div>
         </section>
     </main>
 
@@ -325,12 +403,12 @@
             <button class="btn btn-secondary" style="padding: 0.5rem;">Clear</button>
         </div>
         <div class="notification-item unread">
-            <p>New forum post assigned to you!</p>
-            <small>5 min ago</small>
+            <p>New market alert: Tech stocks surge!</p>
+            <small>10 min ago</small>
         </div>
         <div class="notification-item">
-            <p>Your report is ready.</p>
-            <small>1 hour ago</small>
+            <p>Your investment report is ready.</p>
+            <small>2 hours ago</small>
         </div>
     </div>
 
@@ -356,7 +434,6 @@
             </select>
         </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="General.js"> </script>
 </body>
