@@ -277,3 +277,81 @@
 
         // Initialize
         updateAuthState();
+
+
+        //////// Try :
+
+        // App State
+let state = {
+    page: 'landing',
+    user: null,
+    isDarkTheme: false,
+    language: 'en',
+    highContrast: false,
+    largeText: false
+};
+
+// Translations
+const translations = {
+    en: {
+        heroTitle: "Students Lack Financial Literacy",
+        heroSubtitle: "Finspire makes finance fun, interactive, and personal.",
+        getStarted: "Get Started",
+        login: "Login",
+        problem: "The Challenge",
+        solution: "Our Solution"
+    }
+};
+
+// Render
+function render() {
+    const app = document.getElementById('app');
+    const t = translations[state.language];
+
+    document.body.classList.toggle('dark-theme', state.isDarkTheme);
+    document.body.classList.toggle('high-contrast', state.highContrast);
+    document.body.classList.toggle('large-text', state.largeText);
+
+    if (state.page === 'landing') {
+        app.innerHTML = `
+            <header class="p-4 bg-card animate-slide-in-bottom">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <i class="fas fa-wallet text-3xl text-[var(--color-warm-yellow)]"></i>
+                        <span class="text-2xl font-bold text-primary">Finspire</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="btn-primary" onclick="setState({page:'signup'})">${t.getStarted}</button>
+                        <button class="btn-secondary" onclick="setState({page:'login'})">${t.login}</button>
+                    </div>
+                </div>
+            </header>
+            <section class="p-6 text-center animate-slide-in-bottom">
+                <h1 class="text-4xl font-bold text-white mb-4">${t.heroTitle}</h1>
+                <p class="text-xl text-white mb-6">${t.heroSubtitle}</p>
+                <img src="https://undraw.co/api/illustrations/finance" alt="Finance Illustration" width="300" />
+            </section>
+            <section class="p-6 bg-card animate-slide-in-bottom">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold text-primary">${t.problem}</h3>
+                        <p class="text-secondary">Many students lack basic financial knowledge, leading to poor money management.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-primary">${t.solution}</h3>
+                        <p class="text-secondary">Finspire offers interactive tools, gamified lessons, and AI advice to make learning fun.</p>
+                    </div>
+                </div>
+            </section>
+        `;
+    }
+}
+
+// State Updater
+function setState(newState) {
+    state = { ...state, ...newState };
+    render();
+}
+
+// Initial Render
+render();
