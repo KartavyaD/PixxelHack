@@ -107,7 +107,6 @@ let isAuthenticated = false;
             sidebarToggle.innerHTML = sidebar.classList.contains('collapsed') ? '<i class="fas fa-arrow-right"></i>' : '<i class="fas fa-arrow-left"></i>';
         });
 
-        // Role-Based Dashboard
         const dashboardGrid = document.getElementById('dashboardGrid');
         if (currentUser.role === 'admin') {
             dashboardGrid.innerHTML += `
@@ -526,3 +525,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+function openRazorpay(amount, name = "FinTechHub Test Payment", description = "Test Transaction") {
+    const options = {
+        key: 'rzp_test_R7tXc3n36CrMix', // Replace with your Razorpay Test Key ID
+        amount: amount * 100, // Amount in paise (e.g., 500 = ₹5.00)
+        currency: "INR",
+        name: name,
+        description: description,
+        image: "", // Optional: Add your logo URL
+        handler: function (response){
+            alert("Payment Successful!\nPayment ID: " + response.razorpay_payment_id);
+        },
+        prefill: {
+            name: "",
+            email: ""
+        },
+        theme: {
+            color: "#1e3a8a"
+        }
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+}
+
+// openRazorpay(100);
