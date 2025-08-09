@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Finspire — Financial literacy for students</title>
+
+  <!-- Skip to main (visually hidden until focused) -->
+  <style>
+    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;}
+    .skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;padding:0.5rem 1rem;background:#fff;color:#000;z-index:9999;border-radius:6px;text-decoration:none;}
+    /* basic page error banner */
+    #errorBanner{display:none;position:fixed;left:50%;transform:translateX(-50%);top:1rem;background:#ff4d4f;color:white;padding:0.6rem 1rem;border-radius:8px;z-index:2000;box-shadow:0 8px 30px rgba(0,0,0,0.2);font-weight:600}
+  </style>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="errorBanner" role="alert" aria-live="assertive"></div>
+
+  <!-- Fonts & icons -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Chart.js deferred (if blocked, page still works) -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+  <meta name="theme-color" content="#3A86FF">
+
+  <style>
+    :root{
+      --primary: #3A86FF; --mint: #06D6A0; --warm: #FFBE0B; --text:#1a1a1a;
+      --glass-bg: rgba(255,255,255,0.92);
+      --card-radius:1rem; --card-shadow:0 8px 30px rgba(0,0,0,0.08); --transition:0.28s;
+    }
+    html.dark-theme{ --glass-bg: rgba(20,24,30,0.85); --text:#e6eef8; --bg:#0f1724; }
+    *{box-sizing:border-box}
+    body{ margin:0; font-family:'Inter',system-ui, -apple-system, 'Segoe UI', Roboto; background:linear-gradient(135deg,var(--primary),var(--mint)); color:var(--text); min-height:100vh;}
+    main{max-width:1200px;margin:0 auto;padding-bottom:3rem}
+    h1,h2,h3{font-family:'Poppins',sans-serif;margin:0}
+    p{margin:0 0 1rem 0}
+
+    header.app-header{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.25rem;background:linear-gradient(180deg,rgba(255,255,255,0.06),transparent);backdrop-filter:blur(6px)}
+    .brand{display:flex;gap:.75rem;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:var(--mint);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    .header-actions{display:flex;gap:.6rem;align-items:center}
+    .icon-btn{border:none;background:transparent;color:white;padding:.5rem;border-radius:.6rem;cursor:pointer}
+    .icon-btn:hover{transform:translateY(-3px);background:rgba(255,255,255,0.06)}
+
+    /* Hero */
+    .hero{padding:clamp(2rem,6vw,4rem) 1.25rem;display:flex;align-items:center;justify-content:center}
+    .hero-inner{display:flex;gap:2rem;align-items:center;width:100%;max-width:1100px}
+    .hero-left{flex:1 1 520px;color:white}
+    .hero-right{flex:1 1 480px;display:flex;align-items:center;justify-content:center}
+    .hero-problem{font-size:clamp(1.75rem,4.5vw,3.2rem);font-weight:800;margin-bottom:.6rem}
+    .hero-solution{font-size:clamp(1rem,2.2vw,1.25rem);opacity:.95;margin-bottom:1.2rem}
+    .cta-row{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1rem}
+    .btn{font-family:'Poppins';font-weight:600;border:none;border-radius:.75rem;padding:.85rem 1.3rem;cursor:pointer;transition:transform var(--transition),box-shadow var(--transition)}
+    .btn-primary{background:var(--mint);color:white;box-shadow:0 8px 30px rgba(6,214,160,0.12)}
+    .btn-secondary{background:var(--warm);color:#08121a}
+
+    .hero-illustration{width:100%;max-width:480px;border-radius:var(--card-radius);box-shadow:var(--card-shadow)}
+    .hero-illustration svg{width:100%;display:block;height:auto;border-radius:inherit}
+
+    /* Cards, features, carousel etc (kept minimal) */
+    .section{padding:clamp(2rem,6vw,3.2rem) 1.25rem}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:center;max-width:1100px;margin:0 auto}
+    .infographic{background:var(--glass-bg);border-radius:var(--card-radius);padding:1.25rem;box-shadow:var(--card-shadow);color:var(--text)}
+    .features-wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1.1rem}
+    .feature-card{background:var(--glass-bg);border-radius:14px;padding:1.2rem;text-align:center;box-shadow:var(--card-shadow);transition:transform var(--transition),box-shadow var(--transition)}
+    .feature-card:hover{transform:translateY(-6px)}
+    .feature-icon{display:inline-flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.03);width:56px;height:56px;border-radius:12px;margin:0 auto .8rem;color:var(--warm);font-size:1.2rem}
+
+    .carousel{position:relative;max-width:1100px;margin:1.25rem auto;overflow:hidden;border-radius:var(--card-radius)}
+    .carousel-track{display:flex;gap:1rem;transition:transform 600ms cubic-bezier(.2,.9,.3,1);padding:1rem}
+    .carousel-slide{flex:0 0 280px;background:var(--glass-bg);border-radius:12px;padding:1rem;box-shadow:var(--card-shadow)}
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:var(--primary);color:white;border:none;width:44px;height:44px;border-radius:10px;cursor:pointer}
+    .carousel-btn.prev{left:8px}.carousel-btn.next{right:8px}
+
+    .dashboard-preview{max-width:820px;margin:1.25rem auto;background:var(--glass-bg);border-radius:var(--card-radius);padding:1.25rem;box-shadow:var(--card-shadow);text-align:center}
+    canvas{max-width:420px;margin:0 auto;display:block}
+
+    footer.site-footer{background:linear-gradient(90deg,var(--primary),var(--mint));color:white;padding:2rem 1.25rem;margin-top:2rem}
+    .footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+    .social-row{display:flex;gap:.6rem;margin-top:.6rem}
+
+    .modal{display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:90;padding:1rem}
+    .modal[open]{display:flex}
+    .modal-card{background:var(--glass-bg);border-radius:12px;padding:1.25rem;width:100%;max-width:480px;box-shadow:var(--card-shadow);color:var(--text)}
+    .input{width:100%;padding:.75rem;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;color:inherit}
+    .strength-bar{display:flex;gap:.4rem;margin-top:.45rem}
+    .strength-block{flex:1;height:6px;background:#e6e6e6;border-radius:6px}
+    .strength-weak{background:#ff6b6b}.strength-medium{background:#ffbe0b}.strength-strong{background:#06D6A0}
+
+    :focus{outline:3px solid rgba(255,255,255,0.12);outline-offset:2px}
+    @media (max-width:900px){ .hero-inner{flex-direction:column-reverse;text-align:center} }
+  </style>
+</head>
+<body>
+  <!-- Error banner -->
+  <div id="errorBanner" role="alert" aria-live="assertive"></div>
+
+  <!-- Header -->
+  <header class="app-header" role="banner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">F</div>
+      <div class="title">Finspire</div>
+    </div>
+    <div class="header-actions">
+      <button id="themeToggle" class="icon-btn" title="Toggle dark mode" aria-pressed="false" aria-label="Toggle dark mode"><i class="fas fa-moon" aria-hidden="true"></i></button>
+      <button id="openSignup" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:white;padding:.5rem .9rem;border-radius:8px">Sign up</button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner" role="region" aria-label="Main hero">
+        <div class="hero-left">
+          <h1 id="hero-title" class="hero-problem">Students lack financial literacy</h1>
+          <p class="hero-solution">Finspire makes finance fun, interactive, and personal.</p>
+          <div class="cta-row">
+            <button class="btn btn-primary" id="cta-get-started" aria-label="Get Started (opens sign up)"><i class="fas fa-rocket" aria-hidden="true"></i>&nbsp;Get Started</button>
+            <button class="btn btn-secondary" id="cta-login" aria-label="Login (opens login)"><i class="fas fa-sign-in-alt" aria-hidden="true"></i>&nbsp;Login</button>
+          </div>
+        </div>
+
+        <div class="hero-right" aria-hidden="true">
+          <!-- INLINE SVG ILLUSTRATION (small & safe) -->
+          <figure class="hero-illustration" aria-hidden="true" role="img" aria-label="Students learning illustration">
+            <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <rect x="0" y="0" width="600" height="400" rx="20" fill="white" opacity="0.06"/>
+              <g transform="translate(80,40)">
+                <circle cx="120" cy="110" r="50" fill="#f6f9ff"/>
+                <rect x="40" y="180" width="220" height="90" rx="12" fill="#eafaf1"/>
+                <rect x="70" y="200" width="160" height="12" rx="6" fill="#06D6A0"/>
+                <rect x="70" y="220" width="120" height="12" rx="6" fill="#FFBE0B"/>
+                <rect x="70" y="240" width="80" height="12" rx="6" fill="#3A86FF"/>
+                <circle cx="220" cy="60" r="18" fill="#fff"/>
+              </g>
+            </svg>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem & Solution -->
+    <section class="section" aria-labelledby="ps-title">
+      <h2 id="ps-title" style="text-align:center;color:white;margin-bottom:1rem;">Why it matters</h2>
+      <div class="grid-2">
+        <div class="infographic" aria-labelledby="problem-title">
+          <h3 id="problem-title" style="margin-bottom:.5rem">The Problem</h3>
+          <p>Many students graduate without basic practical financial skills — budgeting, saving, investing, managing credit — which impacts lifelong financial well-being.</p>
+          <!-- simple illustration -->
+          <svg width="100%" height="160" viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="300" height="160" rx="10" fill="#fff" opacity=".06"></rect>
+            <g transform="translate(12,12)">
+              <rect x="0" y="8" width="90" height="18" rx="6" fill="#3A86FF"></rect>
+              <rect x="0" y="36" width="60" height="12" rx="6" fill="#FFBE0B"></rect>
+              <rect x="0" y="56" width="30" height="8" rx="4" fill="#06D6A0"></rect>
+            </g>
+          </svg>
+        </div>
+
+        <div class="infographic" aria-labelledby="solution-title">
+          <h3 id="solution-title" style="margin-bottom:.5rem">The Solution</h3>
+          <p>Finspire combines gamified lessons, hands-on budgeting tools, and an AI advisor to guide students in real-time.</p>
+          <svg width="100%" height="160" viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="300" height="160" rx="10" fill="#fff" opacity=".06"></rect>
+            <g transform="translate(12,12)">
+              <circle cx="70" cy="40" r="28" fill="#06D6A0"></circle>
+              <rect x="120" y="26" width="100" height="28" rx="8" fill="#3A86FF"></rect>
+              <rect x="120" y="64" width="60" height="12" rx="6" fill="#FFBE0B"></rect>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" aria-labelledby="features-title">
+      <h2 id="features-title" style="text-align:center;color:white;margin-bottom:.8rem;">Explore our features</h2>
+      <div class="features-wrap" role="list">
+        <article class="feature-card" role="listitem" tabindex="0" aria-label="Gamified Learning">
+          <div class="feature-icon"><i class="fas fa-gamepad" aria-hidden="true"></i></div>
+          <h3>Gamified Learning</h3><p>Complete levels, earn XP, and unlock lessons — learning by doing.</p>
+        </article>
+        <article class="feature-card" role="listitem" tabindex="0" aria-label="Expense Tracker">
+          <div class="feature-icon"><i class="fas fa-wallet" aria-hidden="true"></i></div>
+          <h3>Expense Tracker</h3><p>Log purchases, categorize spending, and see where money goes.</p>
+        </article>
+        <article class="feature-card" role="listitem" tabindex="0" aria-label="Budget Planner">
+          <div class="feature-icon"><i class="fas fa-calculator" aria-hidden="true"></i></div>
+          <h3>Budget Planner</h3><p>Set goals, allocate funds, and follow simple monthly plans.</p>
+        </article>
+        <article class="feature-card" role="listitem" tabindex="0" aria-label="Quizzes & Rewards">
+          <div class="feature-icon"><i class="fas fa-award" aria-hidden="true"></i></div>
+          <h3>Quizzes & Rewards</h3><p>Test knowledge with short quizzes and earn badges & rewards.</p>
+        </article>
+        <article class="feature-card" role="listitem" tabindex="0" aria-label="AI Advisor">
+          <div class="feature-icon"><i class="fas fa-robot" aria-hidden="true"></i></div>
+          <h3>AI Advisor</h3><p>Get personalized tips and explanations from FinBot.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Carousel -->
+    <section class="section" aria-labelledby="carousel-title">
+      <h2 id="carousel-title" style="text-align:center;color:white;margin-bottom:.8rem;">Feature Spotlight</h2>
+      <div class="carousel" aria-roledescription="carousel">
+        <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous feature">&lt;</button>
+        <div class="carousel-track" id="carouselTrack" role="list">
+          <div class="carousel-slide" role="listitem" tabindex="0"><h4>Interactive Simulations</h4><p>Play through money scenarios and see outcomes.</p></div>
+          <div class="carousel-slide" role="listitem" tabindex="0"><h4>Savings Challenges</h4><p>Weekly missions to build small, consistent saving habits.</p></div>
+          <div class="carousel-slide" role="listitem" tabindex="0"><h4>Micro-Investing Practice</h4><p>Practice investing with virtual cash and learn risk basics.</p></div>
+        </div>
+        <button class="carousel-btn next" id="carouselNext" aria-label="Next feature">&gt;</button>
+      </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section class="section" aria-labelledby="dashboard-title">
+      <h2 id="dashboard-title" style="text-align:center;color:white;margin-bottom:.8rem;">Your Dashboard</h2>
+      <div class="dashboard-preview" role="region" aria-label="Dashboard preview">
+        <div id="chartWrapper" style="position:relative;">
+          <canvas id="dashboardChart" width="420" height="240" aria-label="Savings progress chart" style="min-height:220px"></canvas>
+          <div id="chartFallback" style="display:none;padding:1rem;color:#333">Chart currently unavailable. Try reloading or check your connection.</div>
+        </div>
+        <p style="margin-top:.8rem;">Snapshot of your progress — savings, budgeting, and learning.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-grid">
+      <div><h3>Contact</h3><p>Email: <a href="mailto:support@finspire.example" style="color:inherit;text-decoration:underline">support@finspire.example</a></p><p>Phone: (123) 456-7890</p></div>
+      <div><h3>Quick links</h3><p><a href="#" style="color:inherit;">About</a></p><p><a href="#" style="color:inherit;">Privacy</a></p><p><a href="#" style="color:inherit;">Terms</a></p></div>
+      <div><h3>Follow</h3><div class="social-row"><a href="#" aria-label="Twitter" style="color:white"><i class="fab fa-twitter"></i></a><a href="#" aria-label="Instagram" style="color:white"><i class="fab fa-instagram"></i></a><a href="#" aria-label="LinkedIn" style="color:white"><i class="fab fa-linkedin"></i></a></div></div>
+    </div>
+    <p style="text-align:center;margin-top:1rem;color:rgba(255,255,255,0.9)">© 2025 Finspire. All rights reserved.</p>
+  </footer>
+
+  <!-- Modals -->
+  <dialog id="signupModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <form method="dialog" class="modal-card" aria-labelledby="signupTitle">
+      <button class="close" type="button" aria-label="Close signup" onclick="window.closeModal && window.closeModal('signupModal')">&times;</button>
+      <h3 id="signupTitle">Join Finspire</h3>
+      <div class="form-group"><label for="suName">Full name</label><input id="suName" class="input" type="text" required /></div>
+      <div class="form-group"><label for="suEmail">Email</label><input id="suEmail" class="input" type="email" required /></div>
+      <div class="form-group"><label for="suPass">Password</label><input id="suPass" class="input" type="password" required oninput="window.updateStrength && window.updateStrength(this.value)" /><div class="strength-bar" id="strengthBar" aria-hidden="true"><div class="strength-block"></div><div class="strength-block"></div><div class="strength-block"></div></div></div>
+      <div style="display:flex;gap:.6rem;justify-content:flex-end;margin-top:.6rem"><button class="btn btn-secondary" type="button" onclick="window.closeModal && window.closeModal('signupModal')">Cancel</button><button class="btn btn-primary" id="submitSignup" type="button">Sign up</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="loginModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <form method="dialog" class="modal-card" aria-labelledby="loginTitle">
+      <button class="close" type="button" aria-label="Close login" onclick="window.closeModal && window.closeModal('loginModal')">&times;</button>
+      <h3 id="loginTitle">Login</h3>
+      <div class="form-group"><label for="liEmail">Email</label><input id="liEmail" class="input" type="email" required /></div>
+      <div class="form-group"><label for="liPass">Password</label><input id="liPass" class="input" type="password" required /></div>
+      <div style="display:flex;gap:.6rem;justify-content:flex-end;margin-top:.6rem"><button class="btn btn-secondary" type="button" onclick="window.closeModal && window.closeModal('loginModal')">Cancel</button><button class="btn btn-primary" id="submitLogin" type="button">Log in</button></div>
+    </form>
+  </dialog>
+
+  <!-- Robust initialization script -->
+  <script>
+    window.redirectToGeneral = () => {
+    window.location.href = './General.html';
+};
+  (function(){
+    'use strict';
+
+    const errorBanner = document.getElementById('errorBanner');
+    function showError(message){
+      if(!errorBanner) return;
+      errorBanner.textContent = message;
+      errorBanner.style.display = 'block';
+      setTimeout(()=>{ errorBanner.style.display = 'none'; }, 7000);
+      console.error('Finspire error:', message);
+    }
+
+    // global error capture (non-blocking)
+    window.addEventListener('error', function(ev){
+      try { showError('An error occurred — check console for details'); } catch(e){ console.error(e); }
+    });
+    window.addEventListener('unhandledrejection', function(ev){
+      try { showError('A background error occurred — check console for details'); } catch(e){ console.error(e); }
+    });
+
+    function $id(id){ return document.getElementById(id) || null; }
+    function on(el, ev, fn){ if(!el) return; el.addEventListener(ev, fn); }
+
+    // Modal helpers
+    function openModal(id){
+      try {
+        const el = $id(id); if(!el) return;
+        if(typeof el.showModal === 'function'){ if(!el.open) el.showModal(); }
+        else { el.style.display = 'flex'; el.setAttribute('open',''); }
+        el.setAttribute('aria-hidden','false');
+        const focusable = el.querySelector('input,button,select,textarea,[tabindex]:not([tabindex="-1"])');
+        if(focusable) focusable.focus();
+        const esc = (e) => { if(e.key === 'Escape') closeModal(id); };
+        el._esc = esc; window.addEventListener('keydown', esc);
+      } catch(e){ console.error('openModal', e); showError('Could not open dialog'); }
+    }
+    function closeModal(id){
+      try {
+        const el = $id(id); if(!el) return;
+        if(typeof el.close === 'function' && el.open) el.close();
+        else { el.style.display = 'none'; el.removeAttribute('open'); }
+        el.setAttribute('aria-hidden','true');
+        if(el._esc){ window.removeEventListener('keydown', el._esc); delete el._esc; }
+      } catch(e){ console.error('closeModal', e); showError('Could not close dialog'); }
+    }
+
+    // expose globally to support inline onclick usage and debugging
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+    window.updateStrength = updateStrength; // placeholder before defined
+
+    // password strength
+    function updateStrength(val){
+      try {
+        const blocks = document.querySelectorAll('#strengthBar .strength-block');
+        if(!blocks || !blocks.length) return;
+        let score = 0;
+        if(val.length > 6) score++;
+        if(/[A-Z]/.test(val)) score++;
+        if(/[0-9]/.test(val)) score++;
+        blocks.forEach(b => b.className = 'strength-block');
+        if(score >= 1) blocks[0].classList.add('strength-weak');
+        if(score >= 2) blocks[1].classList.add('strength-medium');
+        if(score >= 3) blocks[2].classList.add('strength-strong');
+      } catch(e){ console.error('updateStrength', e); }
+    }
+    window.updateStrength = updateStrength;
+
+    // carousel
+    function initCarousel(){
+      try {
+        const track = $id('carouselTrack'); const prev = $id('carouselPrev'); const next = $id('carouselNext');
+        if(!track || !prev || !next) return;
+        const slides = Array.from(track.children); if(!slides.length) return;
+        let idx = 0;
+        function show(i){
+          idx = Math.max(0, Math.min(i, slides.length-1));
+          const slide = slides[idx];
+          const offset = slide.offsetLeft;
+          track.style.transform = 'translateX(' + (-offset) + 'px)';
+        }
+        on(prev,'click',()=>show(idx-1)); on(next,'click',()=>show(idx+1));
+        on(prev,'keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); prev.click(); }});
+        on(next,'keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); next.click(); }});
+        window.addEventListener('resize',()=>{ setTimeout(()=>show(idx),120); });
+        setTimeout(()=>show(0),120);
+      } catch(e){ console.error('initCarousel', e); }
+    }
+
+    // Chart init with limited retries
+    function initDashboardChart(){
+      try {
+        const ctxEl = $id('dashboardChart'); const fallback = $id('chartFallback');
+        if(!ctxEl) { if(fallback) fallback.style.display = 'block'; return; }
+        let tries = 0, maxTries = 10;
+        function attempt(){
+          tries++;
+          if(typeof Chart === 'undefined'){
+            if(tries >= maxTries){ if(fallback) fallback.style.display = 'block'; console.warn('Chart.js not available after retries'); return; }
+            return setTimeout(attempt, 300);
+          }
+          try {
+            const ctx = ctxEl.getContext('2d');
+            if(ctxEl._chart){ try{ ctxEl._chart.destroy(); }catch{} }
+            ctxEl._chart = new Chart(ctx, {
+              type:'doughnut',
+              data:{ labels:['Budgeting','Saving','Investing'], datasets:[{ data:[55,30,15], backgroundColor:['#06D6A0','#FFBE0B','#3A86FF'], borderWidth:0 }] },
+              options:{ responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{ position:'bottom' } } }
+            });
+          } catch(err){ console.error('chart draw', err); if(tries < maxTries) setTimeout(attempt, 300); else if(fallback) fallback.style.display = 'block'; }
+        }
+        attempt();
+      } catch(e){ console.error('initDashboardChart', e); if($id('chartFallback')) $id('chartFallback').style.display = 'block'; }
+    }
+
+    // theme toggle
+    function initTheme(){
+      try {
+        const root = document.documentElement; const btn = $id('themeToggle');
+        if(!btn) return;
+        const saved = localStorage.getItem('finspire_theme'); const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        if(theme==='dark') root.classList.add('dark-theme');
+        btn.setAttribute('aria-pressed', theme==='dark'?'true':'false');
+        on(btn,'click',()=>{ const isDark = root.classList.toggle('dark-theme'); btn.setAttribute('aria-pressed', isDark?'true':'false'); localStorage.setItem('finspire_theme', isDark?'dark':'light'); });
+      } catch(e){ console.error('initTheme', e); }
+    }
+
+    // wire CTAs & forms
+    function initCTAsAndForms(){
+      try {
+        const ctaSignup = $id('cta-get-started'), ctaLogin = $id('cta-login'), openSignup = $id('openSignup');
+        if(ctaSignup) on(ctaSignup,'click',()=>openModal('signupModal'));
+        if(ctaLogin) on(ctaLogin,'click',()=>openModal('loginModal'));
+        if(openSignup) on(openSignup,'click',()=>openModal('signupModal'));
+
+        const submitSignup = $id('submitSignup');
+        if(submitSignup) on(submitSignup,'click',()=>{
+          try {
+            const name = $id('suName')?.value.trim()||'', email = $id('suEmail')?.value.trim()||'', pass = $id('suPass')?.value||'';
+            if(!name||!email||!pass){ alert('Please fill all fields.'); return; }
+            closeModal('signupModal'); alert('Welcome, '+name+'! (demo signup)');
+          } catch(e){ console.error('submitSignup', e); showError('Signup failed'); }
+        });
+
+        const submitLogin = $id('submitLogin');
+        if(submitLogin) on(submitLogin,'click',()=>{
+          try { const email = $id('liEmail')?.value.trim()||'', pass = $id('liPass')?.value||''; if(!email||!pass){ alert('Please provide email and password.'); return; } closeModal('loginModal'); alert('Logged in (demo): '+email); } catch(e){ console.error('submitLogin', e); showError('Login failed'); }
+        });
+
+        const suPass = $id('suPass'); if(suPass) on(suPass,'input',(e)=>updateStrength(e.target.value));
+      } catch(e){ console.error('initCTAsAndForms', e); }
+    }
+
+    // main init
+    function init(){
+      try {
+        initTheme(); initCTAsAndForms(); initCarousel(); initDashboardChart();
+        console.log('Finspire init complete');
+      } catch(e){ console.error('init', e); showError('Initialization error'); }
+    }
+
+    if(document.readyState==='complete' || document.readyState==='interactive'){ setTimeout(init, 20); } else { document.addEventListener('DOMContentLoaded', init); }
+
+    // global small API for dev
+    window.Finspire = { openModal, closeModal, updateStrength };
+  })();
+  </script>
+</body>
+</html>
