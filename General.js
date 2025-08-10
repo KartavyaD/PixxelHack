@@ -550,4 +550,4 @@ function openRazorpay(amount, name = "Finspire Test Payment", description = "Tes
     rzp.open();
 }
 
-// openRazorpay(100);
+openRazorpay(100);

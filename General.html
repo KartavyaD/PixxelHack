@@ -3,11 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinTechHub - Financial Innovation Platform</title>
+    <title>Finspire - Financial Innovation Platform</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="General.css" rel="stylesheet">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-</head>
+    
+    <style>
+        :root {
+            --font-primary: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Monaco', 'Consolas', monospace;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+        }
+        
+        .logo, .page-title {
+            font-family: var(--font-primary);
+            font-weight: 700;
+        }
+        
+        .card-value, .auth-title {
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+        
+        .nav-text, .card-title {
+            font-family: var(--font-primary);
+            font-weight: 500;
+        }
+        
+        .finbot-bubble {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(58, 134, 255, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .finbot-bubble:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(58, 134, 255, 0.6);
+        }
+        
+        .finbot-bubble i {
+            font-size: 1.5rem;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 20px rgba(58, 134, 255, 0.4); }
+            50% { box-shadow: 0 4px 20px rgba(58, 134, 255, 0.8), 0 0 0 10px rgba(58, 134, 255, 0.1); }
+            100% { box-shadow: 0 4px 20px rgba(58, 134, 255, 0.4); }
+        }
+        
+        .course-card {
+            background: rgba(245, 247, 250, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(58, 134, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .dark-theme .course-card {
+            background: rgba(26, 26, 26, 0.95);
+            border: 1px solid rgba(58, 134, 255, 0.2);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(58, 134, 255, 0.15);
+        }
+        
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .course-price {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .course-meta {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .add-to-cart {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(58, 134, 255, 0.3);
+        }
+        
+        .portfolio-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(245, 247, 250, 0.95);
+            border-radius: 12px;
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .dark-theme .stat-card {
+            background: rgba(26, 26, 26, 0.95);
+        }
+        
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+    </style>
 </head>
 <body>
     <div class="bg-shapes">
@@ -19,7 +168,8 @@
 
     <div class="page active" id="login">
         <div class="auth-container glass">
-            <h2 class="auth-title">Welcome to FinTechHub</h2>
+            <h2 class="auth-title">Welcome to Finspire</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-secondary);">Your journey to financial mastery starts here</p>
             <div class="form-group">
                 <input type="email" class="auth-input" id="loginEmail" placeholder="Email" required>
             </div>
@@ -35,7 +185,8 @@
 
     <div class="page" id="signup">
         <div class="auth-container glass">
-            <h2 class="auth-title">Join FinTechHub</h2>
+            <h2 class="auth-title">Join Finspire</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-secondary);">Start your financial education journey</p>
             <div class="form-group">
                 <input type="text" class="auth-input" id="signupName" placeholder="Full Name" required>
             </div>
@@ -47,9 +198,9 @@
             </div>
             <div class="form-group">
                 <select class="auth-input" id="signupRole">
+                    <option value="student">Student</option>
                     <option value="investor">Investor</option>
                     <option value="analyst">Analyst</option>
-                    <option value="admin">Admin</option>
                 </select>
             </div>
             <button class="auth-btn" id="signupBtn">Sign Up</button>
@@ -63,16 +214,16 @@
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon">
-                    <i class="fas fa-wallet"></i>
+                    <i class="fas fa-graduation-cap"></i>
                 </div>
-                <span>FinTechHub</span>
+                <span>Finspire</span>
             </div>
 
             <div class="search-container">
                 <div class="search-icon">
                     <i class="fas fa-search"></i>
                 </div>
-                <input type="text" class="search-input glass" placeholder="Search financial insights..." id="smartSearch">
+                <input type="text" class="search-input glass" placeholder="Search courses, insights, strategies..." id="smartSearch">
                 <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
                     <i class="fas fa-microphone"></i>
                 </button>
@@ -90,11 +241,11 @@
                 <button class="action-btn" id="accessibilityToggle" title="Accessibility">
                     <i class="fas fa-universal-access"></i>
                 </button>
-                <div class="user-profile" id="userProfile" data-page="profile">
-                    <div class="avatar" id="userAvatar">FT</div>
+                <div class="user-profile" id="userProfile" onclick="showPage('profile')">
+                    <div class="avatar" id="userAvatar">FI</div>
                     <div>
-                        <div style="font-weight: 600;" id="userName">Fintech User</div>
-                        <div style="font-size: 0.8rem; opacity: 0.8;" id="userRole">Investor</div>
+                        <div style="font-weight: 600;" id="userName">Finspire Student</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;" id="userRole">Student</div>
                     </div>
                 </div>
             </div>
@@ -107,55 +258,55 @@
         </button>
         <ul class="nav-menu">
             <li class="nav-item">
-                <a href="#" class="nav-link active" data-page="dashboard">
+                <a href="#" class="nav-link active" onclick="showPage('dashboard')">
                     <span class="nav-icon"><i class="fas fa-tachometer-alt"></i></span>
                     <span class="nav-text">Portfolio Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-page="chatbot">
+                <a href="#" class="nav-link" onclick="showPage('courses')">
+                    <span class="nav-icon"><i class="fas fa-book-open"></i></span>
+                    <span class="nav-text">Finance Courses</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showPage('chatbot')">
                     <span class="nav-icon"><i class="fas fa-robot"></i></span>
                     <span class="nav-text">Finance Assistant</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-page="forum">
+                <a href="#" class="nav-link" onclick="showPage('forum')">
                     <span class="nav-icon"><i class="fas fa-users"></i></span>
-                    <span class="nav-text">Investor Forum</span>
+                    <span class="nav-text">Investment Forum</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-page="recommendations">
+                <a href="#" class="nav-link" onclick="showPage('recommendations')">
                     <span class="nav-icon"><i class="fas fa-lightbulb"></i></span>
                     <span class="nav-text">Investment Ideas</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-page="cms">
-                    <span class="nav-icon"><i class="fas fa-cogs"></i></span>
-                    <span class="nav-text">Admin Panel</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link" data-page="reports">
+                <a href="#" class="nav-link" onclick="showPage('reports')">
                     <span class="nav-icon"><i class="fas fa-file-alt"></i></span>
                     <span class="nav-text">Financial Reports</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-page="feedback">
+                <a href="#" class="nav-link" onclick="showPage('feedback')">
                     <span class="nav-icon"><i class="fas fa-comment-dots"></i></span>
                     <span class="nav-text">Feedback</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-page="gamification">
+                <a href="#" class="nav-link" onclick="showPage('gamification')">
                     <span class="nav-icon"><i class="fas fa-trophy"></i></span>
                     <span class="nav-text">Rewards</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-page="profile">
+                <a href="#" class="nav-link" onclick="showPage('profile')">
                     <span class="nav-icon"><i class="fas fa-user"></i></span>
                     <span class="nav-text">Profile</span>
                 </a>
@@ -163,17 +314,42 @@
         </ul>
     </nav>
 
+    <!-- Fixed FinBot Bubble -->
+    <div class="finbot-bubble" onclick="showPage('chatbot')" title="Chat with FinBot">
+        <i class="fas fa-robot"></i>
+    </div>
+
     <main class="main-content" id="mainContent" style="display: none;">
         <section class="page" id="dashboard">
             <div class="page-header">
                 <h1 class="page-title">Portfolio Dashboard</h1>
                 <p class="page-description">Track your investments and financial insights in real time.</p>
             </div>
+            
+            <div class="portfolio-stats">
+                <div class="stat-card">
+                    <div class="stat-value">$12,345</div>
+                    <div class="stat-label">Total Portfolio Value</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">+5.2%</div>
+                    <div class="stat-label">Monthly Growth</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Active Investments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$2,480</div>
+                    <div class="stat-label">This Month P&L</div>
+                </div>
+            </div>
+            
             <div class="dashboard-grid" id="dashboardGrid">
                 <div class="dashboard-card">
                     <div class="card-header">
-                        <div class="card-title">Portfolio Value</div>
-                        <div class="card-icon"><i class="fas fa-wallet"></i></div>
+                        <div class="card-title">Portfolio Performance</div>
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
                     </div>
                     <div class="card-value">$12,345</div>
                     <div class="card-trend"><i class="fas fa-arrow-up"></i> 5.2% this month</div>
@@ -183,8 +359,8 @@
                         <div class="card-title">Market Alerts</div>
                         <div class="card-icon"><i class="fas fa-bell"></i></div>
                     </div>
-                    <div class="card-value">2</div>
-                    <div class="card-trend"><i class="fas fa-arrow-down"></i> 1 resolved</div>
+                    <div class="card-value">3</div>
+                    <div class="card-trend warning"><i class="fas fa-exclamation-triangle"></i> 2 new alerts</div>
                 </div>
                 <div class="dashboard-card">
                     <div class="card-header">
@@ -194,116 +370,317 @@
                     <div class="card-value">Bullish</div>
                     <div class="card-trend">Market trending up!</div>
                 </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">Learning Progress</div>
+                        <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                    </div>
+                    <div class="card-value">4/7</div>
+                    <div class="card-trend">Courses Completed</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">Risk Assessment</div>
+                        <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                    </div>
+                    <div class="card-value">Medium</div>
+                    <div class="card-trend">Portfolio Risk Level</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">Recent Activity</div>
+                        <div class="card-icon"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <div class="card-value">5</div>
+                    <div class="card-trend">Transactions Today</div>
+                </div>
             </div>
             <canvas id="portfolioChart" height="150"></canvas>
         </section>
 
+        <section class="page" id="courses">
+            <div class="page-header">
+                <h1 class="page-title">Finance Courses</h1>
+                <p class="page-description">Master financial concepts with our expert-designed curriculum</p>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-header">
+                    <div>
+                        <h3>Cryptocurrency Fundamentals</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 8 weeks</span>
+                            <span><i class="fas fa-star"></i> 4.8 rating</span>
+                            <span><i class="fas fa-users"></i> 1,234 students</span>
+                        </div>
+                    </div>
+                    <div class="course-price">$99</div>
+                </div>
+                <p>Learn the basics of blockchain technology, Bitcoin, Ethereum, and other major cryptocurrencies.</p>
+                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-header">
+                    <div>
+                        <h3>Stock Market Analysis</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 12 weeks</span>
+                            <span><i class="fas fa-star"></i> 4.9 rating</span>
+                            <span><i class="fas fa-users"></i> 2,156 students</span>
+                        </div>
+                    </div>
+                    <div class="course-price">$149</div>
+                </div>
+                <p>Master technical and fundamental analysis to make informed investment decisions.</p>
+                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-header">
+                    <div>
+                        <h3>Personal Finance Management</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 6 weeks</span>
+                            <span><i class="fas fa-star"></i> 4.7 rating</span>
+                            <span><i class="fas fa-users"></i> 3,421 students</span>
+                        </div>
+                    </div>
+                    <div class="course-price">$79</div>
+                </div>
+                <p>Learn budgeting, saving strategies, and wealth building fundamentals.</p>
+                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-header">
+                    <div>
+                        <h3>Options Trading Strategies</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 10 weeks</span>
+                            <span><i class="fas fa-star"></i> 4.6 rating</span>
+                            <span><i class="fas fa-users"></i> 987 students</span>
+                        </div>
+                    </div>
+                    <div class="course-price">$199</div>
+                </div>
+                <p>Advanced course covering options trading, hedging strategies, and risk management.</p>
+                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-header">
+                    <div>
+                        <h3>ESG & Sustainable Investing</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 8 weeks</span>
+                            <span><i class="fas fa-star"></i> 4.8 rating</span>
+                            <span><i class="fas fa-users"></i> 1,567 students</span>
+                        </div>
+                    </div>
+                    <div class="course-price">$129</div>
+                </div>
+                <p>Explore environmental, social, and governance factors in investment decisions.</p>
+                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-header">
+                    <div>
+                        <h3>FinTech Innovation & Trends</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 6 weeks</span>
+                            <span><i class="fas fa-star"></i> 4.9 rating</span>
+                            <span><i class="fas fa-users"></i> 2,034 students</span>
+                        </div>
+                    </div>
+                    <div class="course-price">$119</div>
+                </div>
+                <p>Stay ahead with the latest financial technology trends and digital banking innovations.</p>
+                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-header">
+                    <div>
+                        <h3>Real Estate Investment</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 10 weeks</span>
+                            <span><i class="fas fa-star"></i> 4.7 rating</span>
+                            <span><i class="fas fa-users"></i> 1,789 students</span>
+                        </div>
+                    </div>
+                    <div class="course-price">$179</div>
+                </div>
+                <p>Learn real estate investing, REITs, property analysis, and market evaluation.</p>
+                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+            </div>
+        </section>
+
         <section class="page" id="chatbot">
             <div class="page-header">
-            <h1 class="page-title">Finance Assistant</h1>
-            <p class="page-description">Get personalized financial advice and market analysis.</p>
-        </div>
-        <div class="chat-container">
-            <div class="chat-header">
-                <i class="fas fa-robot"></i> FinBot
+                <h1 class="page-title">FinBot Assistant</h1>
+                <p class="page-description">Get personalized financial advice, market analysis, and educational support.</p>
             </div>
-            <div class="chat-messages" id="chatMessages">
-                <div class="message bot">
-                    <div class="message-bubble">Hello! Ask me about investments, markets, or budgeting.</div>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <i class="fas fa-robot"></i> FinBot - Your AI Financial Advisor
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-bubble">Hello! I'm FinBot, your AI financial assistant. I can help you with:
+                        <br>• Investment strategies and portfolio analysis
+                        <br>• Course recommendations based on your goals
+                        <br>• Market insights and trend analysis
+                        <br>• Personal finance planning
+                        <br>• Risk assessment and management
+                        <br><br>What would you like to learn about today?</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ask about investments, courses, market trends, or financial planning...">
+                    <button class="send-button" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                    <button class="send-button" id="voiceChat"><i class="fas fa-microphone"></i></button>
                 </div>
             </div>
-            <div class="chat-input-area">
-                <input type="text" class="chat-input" id="chatInput" placeholder="Ask about stocks, budgeting, or more...">
-                <button class="send-button" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
-                <button class="send-button" id="voiceChat"><i class="fas fa-microphone"></i></button>
-            </div>
-        </div>
-            </section>
+        </section>
 
         <section class="page" id="forum">
             <div class="page-header">
-                <h1 class="page-title">Investor Forum</h1>
-                <p class="page-description">Discuss markets, strategies, and fintech innovations.</p>
+                <h1 class="page-title">Investment Forum</h1>
+                <p class="page-description">Connect with fellow investors and share market insights.</p>
             </div>
+            
             <div class="forum-thread">
                 <div class="thread-header">
-                    <div>Best Cryptocurrency to Invest in 2025?</div>
+                    <div>Best Cryptocurrency Investment Strategies for 2025?</div>
                     <div class="thread-actions">
-                        <span><i class="fas fa-arrow-up"></i> 20</span>
+                        <span><i class="fas fa-arrow-up"></i> 45</span>
+                        <span><i class="fas fa-comment"></i> 23</span>
+                    </div>
+                </div>
+                <p>Posted by CryptoStudent2024 • 2 hours ago</p>
+            </div>
+            
+            <div class="forum-thread">
+                <div class="thread-header">
+                    <div>AI in FinTech: Investment Opportunities & Risks</div>
+                    <div class="thread-actions">
+                        <span><i class="fas fa-arrow-up"></i> 32</span>
+                        <span><i class="fas fa-comment"></i> 15</span>
+                    </div>
+                </div>
+                <p>Posted by TechInvestor • 5 hours ago</p>
+            </div>
+            
+            <div class="forum-thread">
+                <div class="thread-header">
+                    <div>ESG Investing: Building a Sustainable Portfolio</div>
+                    <div class="thread-actions">
+                        <span><i class="fas fa-arrow-up"></i> 28</span>
                         <span><i class="fas fa-comment"></i> 12</span>
                     </div>
                 </div>
-                <p>Posted by Investor123 • 3 hours ago</p>
+                <p>Posted by GreenInvestor • 1 day ago</p>
             </div>
+            
             <div class="forum-thread">
                 <div class="thread-header">
-                    <div>AI in Fintech: Opportunities?</div>
+                    <div>Options Trading for Beginners: Where to Start?</div>
                     <div class="thread-actions">
-                        <span><i class="fas fa-arrow-up"></i> 15</span>
-                        <span><i class="fas fa-comment"></i> 8</span>
+                        <span><i class="fas fa-arrow-up"></i> 56</span>
+                        <span><i class="fas fa-comment"></i> 31</span>
                     </div>
                 </div>
-                <p>Posted by Analyst456 • 1 day ago</p>
+                <p>Posted by OptionsNewbie • 1 day ago</p>
+            </div>
+            
+            <div class="forum-thread">
+                <div class="thread-header">
+                    <div>Real Estate vs Stock Market: Which is Better in 2025?</div>
+                    <div class="thread-actions">
+                        <span><i class="fas fa-arrow-up"></i> 42</span>
+                        <span><i class="fas fa-comment"></i> 28</span>
+                    </div>
+                </div>
+                <p>Posted by PropertyVsStocks • 2 days ago</p>
+            </div>
+            
+            <div class="forum-thread">
+                <div class="thread-header">
+                    <div>Student Budget: How to Start Investing with $500?</div>
+                    <div class="thread-actions">
+                        <span><i class="fas fa-arrow-up"></i> 73</span>
+                        <span><i class="fas fa-comment"></i> 45</span>
+                    </div>
+                </div>
+                <p>Posted by StudentInvestor • 3 days ago</p>
             </div>
         </section>
 
         <section class="page" id="recommendations">
             <div class="page-header">
                 <h1 class="page-title">Investment Ideas</h1>
-                <p class="page-description">Personalized investment opportunities for you.</p>
+                <p class="page-description">Personalized investment opportunities curated for students and young investors.</p>
             </div>
             <div class="recommendation-grid">
                 <div class="recommendation-card">
-                    <h3>Tech Stocks</h3>
-                    <p>Explore high-growth tech companies for 2025.</p>
+                    <h3><i class="fas fa-microchip"></i> Tech Stocks for Students</h3>
+                    <p>Explore high-growth technology companies perfect for long-term student portfolios. Focus on established tech giants and emerging AI companies.</p>
+                    <div class="card-trend"><i class="fas fa-chart-line"></i> High Growth Potential</div>
                 </div>
+                
                 <div class="recommendation-card">
-                    <h3>Green Bonds</h3>
-                    <p>Invest in sustainable financial instruments.</p>
+                    <h3><i class="fas fa-leaf"></i> Green Bonds & ESG ETFs</h3>
+                    <p>Invest in sustainable financial instruments that align with environmental values while building wealth responsibly.</p>
+                    <div class="card-trend"><i class="fas fa-seedling"></i> Sustainable Returns</div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-coins"></i> Fractional Share Investing</h3>
+                    <p>Start building your portfolio with small amounts by purchasing fractional shares of expensive stocks like Amazon, Google, and Tesla.</p>
+                    <div class="card-trend"><i class="fas fa-dollar-sign"></i> Low Entry Barrier</div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-robot"></i> Robo-Advisor Portfolios</h3>
+                    <p>Automated investment solutions perfect for busy students. Let AI manage your diversified portfolio with minimal fees and maximum convenience.</p>
+                    <div class="card-trend"><i class="fas fa-cogs"></i> Automated Management</div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Education Savings Plans</h3>
+                    <p>529 plans and education-focused investments to fund your continued learning and professional development in finance.</p>
+                    <div class="card-trend"><i class="fas fa-book"></i> Education Focused</div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-mobile-alt"></i> FinTech Startups</h3>
+                    <p>Early-stage investment opportunities in revolutionary financial technology companies reshaping the industry.</p>
+                    <div class="card-trend"><i class="fas fa-rocket"></i> Innovation Play</div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-shield-alt"></i> Low-Risk Bond Portfolios</h3>
+                    <p>Conservative investment strategies perfect for building an emergency fund while earning better returns than savings accounts.</p>
+                    <div class="card-trend"><i class="fas fa-lock"></i> Capital Protection</div>
                 </div>
             </div>
-        </section>
-
-        <section class="page" id="cms">
-            <div class="page-header">
-                <h1 class="page-title">Admin Panel</h1>
-                <p class="page-description">Manage users, transactions, and content.</p>
-            </div>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Investor123</td>
-                        <td>Investor</td>
-                        <td><button class="btn btn-secondary">Edit</button></td>
-                    </tr>
-                    <tr>
-                        <td>Admin456</td>
-                        <td>Admin</td>
-                        <td><button class="btn btn-secondary">Edit</button></td>
-                    </tr>
-                </tbody>
-            </table>
         </section>
 
         <section class="page" id="reports">
             <div class="page-header">
                 <h1 class="page-title">Financial Reports</h1>
-                <p class="page-description">Generate and export investment reports.</p>
+                <p class="page-description">Generate and export comprehensive investment and learning reports.</p>
             </div>
             <div class="form-container">
                 <div class="form-group">
                     <label class="form-label">Report Type</label>
                     <select class="form-input">
-                        <option>PDF</option>
-                        <option>CSV</option>
-                        <option>XLSX</option>
+                        <option>Portfolio Performance (PDF)</option>
+                        <option>Learning Progress (CSV)</option>
+                        <option>Investment Summary (XLSX)</option>
+                        <option>Course Completion Certificate</option>
                     </select>
                 </div>
                 <button class="btn btn-primary" id="generateReport">Generate Report</button>
@@ -311,10 +688,19 @@
             <div class="progress-container">
                 <div class="progress-label">
                     <span>Portfolio Growth</span>
-                    <span>65%</span>
+                    <span>68%</span>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: 65%;"></div>
+                    <div class="progress-fill" style="width: 68%;"></div>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Course Completion</span>
+                    <span>57%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 57%;"></div>
                 </div>
             </div>
         </section>
@@ -322,12 +708,32 @@
         <section class="page" id="feedback">
             <div class="page-header">
                 <h1 class="page-title">Feedback</h1>
-                <p class="page-description">Share your thoughts on our platform!</p>
+                <p class="page-description">Help us improve your learning and investment experience!</p>
             </div>
             <div class="form-container">
                 <div class="form-group">
+                    <label class="form-label">Feedback Category</label>
+                    <select class="form-input">
+                        <option>Course Content</option>
+                        <option>Platform Features</option>
+                        <option>FinBot Assistant</option>
+                        <option>Investment Tools</option>
+                        <option>General Experience</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-label">Your Feedback</label>
-                    <textarea class="form-input" rows="5" placeholder="Tell us about your fintech experience..."></textarea>
+                    <textarea class="form-input" rows="5" placeholder="Tell us about your experience with Finspire..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Rating</label>
+                    <div style="display: flex; gap: 0.5rem; font-size: 1.5rem; color: var(--accent);">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
                 </div>
                 <button class="btn btn-primary">Submit Feedback</button>
             </div>
@@ -335,31 +741,106 @@
 
         <section class="page" id="gamification">
             <div class="page-header">
-                <h1 class="page-title">Rewards</h1>
-                <p class="page-description">Earn badges and climb the investor leaderboard!</p>
+                <h1 class="page-title">Rewards & Achievements</h1>
+                <p class="page-description">Earn badges, climb leaderboards, and unlock exclusive content!</p>
             </div>
             <div class="gamification-container">
-                <div class="badge"><i class="fas fa-star"></i> Top Investor</div>
-                <div class="badge"><i class="fas fa-coins"></i> Savvy Trader</div>
+                <div class="badge"><i class="fas fa-star"></i> Top Learner</div>
+                <div class="badge"><i class="fas fa-coins"></i> Smart Investor</div>
+                <div class="badge"><i class="fas fa-graduation-cap"></i> Course Completer</div>
+                <div class="badge"><i class="fas fa-chart-line"></i> Market Analyst</div>
+                <div class="badge"><i class="fas fa-users"></i> Community Helper</div>
+                <div class="badge"><i class="fas fa-trophy"></i> Portfolio Master</div>
+                <div class="badge"><i class="fas fa-rocket"></i> Early Adopter</div>
+                <div class="badge"><i class="fas fa-brain"></i> FinBot Expert</div>
             </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">Your Level</div>
+                        <div class="card-icon"><i class="fas fa-level-up-alt"></i></div>
+                    </div>
+                    <div class="card-value">Level 7</div>
+                    <div class="card-trend"><i class="fas fa-fire"></i> 230 XP to next level</div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">Total Points</div>
+                        <div class="card-icon"><i class="fas fa-coins"></i></div>
+                    </div>
+                    <div class="card-value">2,450</div>
+                    <div class="card-trend"><i class="fas fa-arrow-up"></i> +180 this week</div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-title">Streak</div>
+                        <div class="card-icon"><i class="fas fa-fire"></i></div>
+                    </div>
+                    <div class="card-value">12 days</div>
+                    <div class="card-trend"><i class="fas fa-calendar"></i> Keep learning!</div>
+                </div>
+            </div>
+            
             <table class="data-table">
                 <thead>
                     <tr>
                         <th>Rank</th>
-                        <th>User</th>
+                        <th>Student</th>
                         <th>Points</th>
+                        <th>Level</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>Investor123</td>
-                        <td>1800</td>
+                        <td>FinanceGuru2025</td>
+                        <td>3,240</td>
+                        <td>9</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>Analyst456</td>
-                        <td>1500</td>
+                        <td>InvestmentPro</td>
+                        <td>2,890</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>StudentTrader</td>
+                        <td>2,670</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>MarketMaster</td>
+                        <td>2,450</td>
+                        <td>7</td>
+                    </tr>
+                    <tr style="background: rgba(58, 134, 255, 0.1);">
+                        <td>5</td>
+                        <td>You</td>
+                        <td>2,450</td>
+                        <td>7</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>CryptoStudent</td>
+                        <td>2,120</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>StockAnalyst</td>
+                        <td>1,890</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>BudgetingPro</td>
+                        <td>1,750</td>
+                        <td>5</td>
                     </tr>
                 </tbody>
             </table>
@@ -368,31 +849,40 @@
         <section class="page" id="profile">
             <div class="page-header">
                 <h1 class="page-title">Your Profile</h1>
-                <p class="page-description">Manage your account and view your activity.</p>
+                <p class="page-description">Manage your account and track your financial learning journey.</p>
             </div>
             <div class="profile-container">
                 <div class="profile-header">
-                    <div class="profile-avatar" id="profileAvatar">FT</div>
+                    <div class="profile-avatar" id="profileAvatar">FI</div>
                     <div class="profile-info">
-                        <h2 id="profileName">Fintech User</h2>
-                        <p id="profileRole">Investor</p>
+                        <h2 id="profileName">Finspire Student</h2>
+                        <p id="profileRole">Student • Level 7</p>
                     </div>
                 </div>
                 <div class="profile-section">
                     <h3>Account Details</h3>
-                    <p>Email: <span id="profileEmail">user@fintechhub.com</span></p>
+                    <p>Email: <span id="profileEmail">student@finspire.com</span></p>
                     <p>Joined: August 2025</p>
+                    <p>Subscription: Premium Student Plan</p>
                     <button class="btn btn-secondary" id="editProfile">Edit Profile</button>
                 </div>
                 <div class="profile-section">
+                    <h3>Learning Progress</h3>
+                    <p>Courses Completed: 4/7</p>
+                    <p>Certificates Earned: 2</p>
+                    <p>Study Streak: 12 days</p>
+                </div>
+                <div class="profile-section">
                     <h3>Investment Activity</h3>
-                    <p>Total Investments: $12,345</p>
-                    <p>Recent Transactions: 5</p>
+                    <p>Portfolio Value: $12,345</p>
+                    <p>Total Invested: $10,000</p>
+                    <p>Recent Transactions: 8</p>
                 </div>
                 <div class="profile-section">
                     <h3>Preferences</h3>
                     <p>Notifications: Enabled</p>
                     <p>Language: English</p>
+                    <p>Theme: Auto</p>
                 </div>
                 <button class="btn btn-danger" id="logoutBtn">Log Out</button>
             </div>
@@ -405,11 +895,19 @@
             <button class="btn btn-secondary" style="padding: 0.5rem;">Clear</button>
         </div>
         <div class="notification-item unread">
-            <p>New market alert: Tech stocks surge!</p>
-            <small>10 min ago</small>
+            <p><i class="fas fa-graduation-cap"></i> New course: "Advanced Options Strategies" now available!</p>
+            <small>5 min ago</small>
+        </div>
+        <div class="notification-item unread">
+            <p><i class="fas fa-chart-line"></i> Market alert: Tech stocks surge 3.2%!</p>
+            <small>15 min ago</small>
         </div>
         <div class="notification-item">
-            <p>Your investment report is ready.</p>
+            <p><i class="fas fa-trophy"></i> Congratulations! You earned the "Smart Investor" badge.</p>
+            <small>1 hour ago</small>
+        </div>
+        <div class="notification-item">
+            <p><i class="fas fa-file-alt"></i> Your monthly portfolio report is ready for download.</p>
             <small>2 hours ago</small>
         </div>
     </div>
@@ -430,14 +928,244 @@
         </div>
         <div class="accessibility-option">
             <span>Language</span>
-            <select id="languageSelect" style="padding: 0.5rem; border-radius: 10px;">
+            <select id="languageSelect" style="padding: 0.5rem; border-radius: 10px; background: var(--light); border: 1px solid rgba(58, 134, 255, 0.2);">
                 <option value="en">English</option>
-                <option value="ar">Arabic</option>
+                <option value="ar">العربية</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
             </select>
         </div>
     </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="General.js"> </script>
-    <script src="https://unpkg.com/@google/generative-ai@0.12.0/dist/index.js"></script>
+    <script>
+        // Enhanced JavaScript functionality
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find and activate the corresponding nav link
+            const activeLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+        
+        // Login functionality
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (email && password) {
+                // Hide login page
+                document.getElementById('login').classList.remove('active');
+                
+                // Show main interface
+                document.getElementById('mainHeader').style.display = 'block';
+                document.getElementById('mainSidebar').style.display = 'block';
+                document.getElementById('mainContent').style.display = 'block';
+                
+                // Show dashboard
+                showPage('dashboard');
+                
+                // Update user info
+                const userName = email.split('@')[0];
+                document.getElementById('userName').textContent = userName;
+                document.getElementById('profileName').textContent = userName;
+                document.getElementById('profileEmail').textContent = email;
+                
+                // Set user avatar
+                const initials = userName.substring(0, 2).toUpperCase();
+                document.getElementById('userAvatar').textContent = initials;
+                document.getElementById('profileAvatar').textContent = initials;
+            }
+        });
+        
+        // Signup functionality
+        document.getElementById('signupBtn').addEventListener('click', function() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const role = document.getElementById('signupRole').value;
+            
+            if (name && email && password) {
+                // Switch to login page
+                document.getElementById('signup').classList.remove('active');
+                document.getElementById('login').classList.add('active');
+                
+                // Pre-fill login form
+                document.getElementById('loginEmail').value = email;
+            }
+        });
+        
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-theme');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+        
+        // Sidebar toggle
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            const sidebar = document.getElementById('mainSidebar');
+            sidebar.classList.toggle('collapsed');
+        });
+        
+        // Navigation between login and signup
+        document.querySelectorAll('.auth-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetPage = this.getAttribute('data-page');
+                
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                document.getElementById(targetPage).classList.add('active');
+            });
+        });
+        
+        // Notification panel toggle
+        document.getElementById('notificationBtn').addEventListener('click', function() {
+            const panel = document.getElementById('notificationPanel');
+            panel.classList.toggle('show');
+        });
+        
+        // Accessibility panel toggle
+        document.getElementById('accessibilityToggle').addEventListener('click', function() {
+            const panel = document.getElementById('accessibilityPanel');
+            panel.classList.toggle('show');
+        });
+        
+        // Add to cart functionality
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-check"></i> Added to Cart';
+                this.style.background = 'linear-gradient(135deg, var(--success), var(--secondary))';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+                    this.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+                }, 2000);
+            });
+        });
+        
+        // Enhanced FinBot chat
+        document.getElementById('sendMessage').addEventListener('click', sendChatMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+        
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addChatMessage(message, 'user');
+            input.value = '';
+            
+            // Simulate bot response
+            setTimeout(() => {
+                const responses = [
+                    "Great question! Based on current market trends, I'd recommend diversifying your portfolio with a mix of growth and value stocks.",
+                    "For students, I suggest starting with low-cost index funds and ETFs. They provide broad market exposure with minimal fees.",
+                    "Consider taking our 'Personal Finance Management' course to build a solid foundation before advanced investing.",
+                    "The cryptocurrency market is volatile. Start with a small allocation (5-10% of your portfolio) and focus on established coins.",
+                    "Your portfolio shows good diversification! Consider adding some ESG investments to align with sustainable values.",
+                    "Based on your learning progress, you're ready for our 'Options Trading Strategies' course. Would you like me to enroll you?"
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addChatMessage(randomResponse, 'bot');
+            }, 1000);
+        }
+        
+        function addChatMessage(message, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = `message-bubble ${sender}`;
+            bubbleDiv.textContent = message;
+            
+            messageDiv.appendChild(bubbleDiv);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Hide main interface
+            document.getElementById('mainHeader').style.display = 'none';
+            document.getElementById('mainSidebar').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+            
+            // Show login page
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('login').classList.add('active');
+            
+            // Clear form fields
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        });
+        
+        // Initialize portfolio chart
+        window.addEventListener('load', function() {
+            const ctx = document.getElementById('portfolioChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: [8000, 8500, 8200, 9100, 9800, 10200, 11500, 12345],
+                        borderColor: '#3A86FF',
+                        backgroundColor: 'rgba(58, 134, 255, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(58, 134, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        
+    </script>
 </body>
 </html>
