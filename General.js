@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function openRazorpay(amount, name = "FinTechHub Test Payment", description = "Test Transaction") {
+function openRazorpay(amount, name = "Finspire Test Payment", description = "Test Transaction") {
     const options = {
         key: 'rzp_test_R7tXc3n36CrMix', // Replace with your Razorpay Test Key ID
         amount: amount * 100, // Amount in paise (e.g., 500 = ₹5.00)
